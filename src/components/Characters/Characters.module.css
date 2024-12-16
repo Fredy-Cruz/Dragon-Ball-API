@@ -17,3 +17,8 @@
     justify-items: center;
     align-content: center;
 }
+
+.sub_title{
+    padding: 0.5rem;
+    text-align: center;
+}
