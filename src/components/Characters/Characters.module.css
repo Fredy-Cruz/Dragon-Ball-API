@@ -10,3 +10,10 @@
     height: 300px;
     object-fit: contain;
 }
+
+.div_load{
+    height: 60vh;
+    width: 100%;
+    justify-items: center;
+    align-content: center;
+}

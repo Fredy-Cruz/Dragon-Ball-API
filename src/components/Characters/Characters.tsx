@@ -1,6 +1,7 @@
 import style from './Characters.module.css';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { Loading } from '../Loading/loading';
 
 export interface ICharacters {
     items: Item[];
@@ -51,20 +52,41 @@ export interface Meta {
 export const Characters = () => {
 
     const [characters, setCharacters] = useState<Item[]>([]);
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() =>{
         const getCharacters = async () =>{
-            const response = await fetch('https://dragonball-api.com/api/characters');
-            const data:ICharacters = await response.json();
-            setCharacters(data.items);
+            try{
+                const response = await fetch('https://dragonball-api.com/api/characters');
+                if(!response.ok){
+                    throw new Error('Peticion API fallida');
+                }
+                const data:ICharacters = await response.json();
+                setCharacters(data.items);
+            }catch(error){
+                if(error instanceof Error){
+                    setError(error.message)
+                }
+            }finally{
+                setLoading(false);
+            }
         }
+        setTimeout(()=>{
+            getCharacters();
 
-        getCharacters();
-    })
+        }, 3000);
+    }, [])
 
   return (
     <div>
         <h2>Dragon Ball Characters</h2>
+        {
+            error && <p>Something went wrong: {error}</p>
+        }
+        {
+            loading && <div className={style.div_load}><Loading/></div>
+        }
         <div className={style.cont}>
             {characters.map((character) => (
                 //Cada personaje debe tener un atributo unico, por eso usamos key
