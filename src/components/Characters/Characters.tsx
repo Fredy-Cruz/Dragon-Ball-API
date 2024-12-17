@@ -74,7 +74,7 @@ export const Characters = () => {
                         <figure>
                             <img src={character.image} alt={character.name} className={style.containerImg}></img>
                         </figure>
-                        <div>
+                        <div className={style.character_info}>
                             <h2>{character.name}</h2>
                             <h3>Gender: {character.gender}</h3>
                             <h3>Ki: {character.ki}</h3>
